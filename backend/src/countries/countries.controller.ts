@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Query } from '@nestjs/common';
 import { CountriesService } from './countries.service';
 import { Country } from './interfaces/country.interface';
 
@@ -7,7 +7,10 @@ export class CountriesController {
   constructor(private readonly countriesService: CountriesService) {}
 
   @Get()
-  async getCountries(): Promise<Country[]> {
-    return this.countriesService.getAllCountries();
+  async getCountries(
+    @Query('region') region?: string,
+    @Query('sort') sort?: string,
+  ): Promise<Country[]> {
+    return this.countriesService.getAllCountries(region, sort);
   }
 }
