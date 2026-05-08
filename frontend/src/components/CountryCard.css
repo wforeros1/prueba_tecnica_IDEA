@@ -1,106 +1,113 @@
+/* ── Card shell ──────────────────────────── */
 .country-card {
   background-color: var(--surface-color);
   border-radius: var(--border-radius);
   overflow: hidden;
-  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
   border: 1px solid var(--border-color);
   box-shadow: var(--shadow-sm);
   display: flex;
   flex-direction: column;
-  height: 100%;
+  transition: box-shadow var(--transition-speed) ease,
+              transform var(--transition-speed) ease;
 }
 
 .country-card:hover {
-  transform: translateY(-8px);
+  transform: translateY(-6px);
   box-shadow: var(--shadow-md);
-  border-color: rgba(255, 255, 255, 0.2);
-  background-color: var(--surface-hover);
 }
 
+/* ── Image ───────────────────────────────── */
 .card-image-wrapper {
   position: relative;
   width: 100%;
-  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  padding-top: 58%;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0.1);
+  background-color: #e8e0d8;
 }
 
 .country-flag {
   position: absolute;
-  top: 0;
-  left: 0;
+  inset: 0;
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.5s ease;
+  transition: transform 0.45s ease;
 }
 
 .country-card:hover .country-flag {
-  transform: scale(1.08);
+  transform: scale(1.06);
 }
 
-.image-overlay {
+/* ── Flag badge (corner circle) ─────────── */
+.flag-badge {
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  background: linear-gradient(to top, var(--surface-color), transparent);
-  opacity: 0.9;
-  transition: opacity var(--transition-speed);
+  top: 12px;
+  right: 12px;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 2.5px solid #fff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+  background: #fff;
+  flex-shrink: 0;
 }
 
-.country-card:hover .image-overlay {
-  opacity: 1;
-  background: linear-gradient(to top, var(--surface-hover), transparent);
+.flag-badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
+/* ── Content ─────────────────────────────── */
 .card-content {
-  padding: 1.5rem;
-  flex-grow: 1;
+  padding: 1.4rem 1.5rem 1.5rem;
   display: flex;
   flex-direction: column;
-  position: relative;
-  z-index: 1;
-  margin-top: -3rem; /* Overlap image slightly */
+  flex-grow: 1;
+  gap: 1rem;
 }
 
 .country-name {
-  font-size: 1.4rem;
+  font-family: 'Playfair Display', Georgia, serif;
+  font-size: 1.5rem;
   font-weight: 700;
-  margin-bottom: 1.25rem;
   color: var(--text-primary);
+  line-height: 1.2;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
 }
 
+/* ── Details (label : value rows) ───────── */
 .country-details {
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  margin-top: auto;
-  background-color: rgba(255, 255, 255, 0.03);
-  padding: 1rem;
-  border-radius: 12px;
+  gap: 0;
+  border-top: 1px solid var(--border-color);
 }
 
-.detail-item {
+.detail-row {
   display: flex;
+  justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
+  padding: 0.55rem 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.detail-label {
+  font-size: 0.78rem;
   font-weight: 500;
-  transition: color var(--transition-speed);
+  color: var(--text-label);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
 }
 
-.country-card:hover .detail-item {
-  color: #e2e8f0;
+.detail-value {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--text-primary);
+  text-align: right;
 }
 
-.detail-icon {
-  color: var(--accent-color);
-  flex-shrink: 0;
-}
+

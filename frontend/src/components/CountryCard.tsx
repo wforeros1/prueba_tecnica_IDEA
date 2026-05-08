@@ -1,4 +1,3 @@
-import { MapPin, Users, Globe2 } from 'lucide-react';
 import './CountryCard.css';
 
 interface CountryProps {
@@ -9,37 +8,56 @@ interface CountryProps {
   flagUrl: string;
 }
 
-export const CountryCard = ({ 
-  name, 
-  capital, 
-  region, 
-  population, 
-  flagUrl 
+function formatPopulation(pop: number): string {
+  if (pop >= 1_000_000_000) return (pop / 1_000_000_000).toFixed(1) + 'B';
+  if (pop >= 1_000_000)     return (pop / 1_000_000).toFixed(1) + 'M';
+  if (pop >= 1_000)         return (pop / 1_000).toFixed(1) + 'K';
+  return pop.toLocaleString();
+}
+
+export const CountryCard = ({
+  name,
+  capital,
+  region,
+  population,
+  flagUrl,
 }: CountryProps) => {
   return (
-    <div className="country-card">
+    <article className="country-card">
+      {/* ── Image section ── */}
       <div className="card-image-wrapper">
-        <img src={flagUrl} alt={`Flag of ${name}`} className="country-flag" loading="lazy" />
-        <div className="image-overlay"></div>
-      </div>
-      <div className="card-content">
-        <h3 className="country-name" title={name}>{name}</h3>
-        
-        <div className="country-details">
-          <div className="detail-item">
-            <MapPin size={16} className="detail-icon" />
-            <span>{capital || 'N/A'}</span>
-          </div>
-          <div className="detail-item">
-            <Globe2 size={16} className="detail-icon" />
-            <span>{region}</span>
-          </div>
-          <div className="detail-item">
-            <Users size={16} className="detail-icon" />
-            <span>{population.toLocaleString()}</span>
-          </div>
+        <img
+          src={flagUrl}
+          alt={`Bandera de ${name}`}
+          className="country-flag"
+          loading="lazy"
+        />
+        {/* Badge flag in corner */}
+        <div className="flag-badge" aria-hidden="true">
+          <img src={flagUrl} alt="" />
         </div>
       </div>
-    </div>
+
+      {/* ── Content section ── */}
+      <div className="card-content">
+        <h3 className="country-name">{name}</h3>
+
+        <dl className="country-details">
+          <div className="detail-row">
+            <dt className="detail-label">Capital</dt>
+            <dd className="detail-value">{capital || 'N/A'}</dd>
+          </div>
+          <div className="detail-row">
+            <dt className="detail-label">Región</dt>
+            <dd className="detail-value">{region}</dd>
+          </div>
+          <div className="detail-row">
+            <dt className="detail-label">Población</dt>
+            <dd className="detail-value">{formatPopulation(population)}</dd>
+          </div>
+        </dl>
+
+      </div>
+    </article>
   );
 };

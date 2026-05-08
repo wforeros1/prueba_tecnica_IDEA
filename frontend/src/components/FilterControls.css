@@ -1,0 +1,83 @@
+.filter-controls {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.filter-label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--text-label);
+}
+
+/* ── Region select ───────────────────────── */
+.filter-select {
+  padding: 0.7rem 2.5rem 0.7rem 1rem;
+  background-color: var(--bg-color);
+  border: 1.5px solid var(--border-color);
+  border-radius: 50px;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: 0.9rem;
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23b0a49b' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 0.85rem center;
+  transition: all var(--transition-speed);
+  min-width: 160px;
+}
+
+.filter-select:focus {
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 3px rgba(122, 72, 81, 0.12);
+}
+
+.filter-select option {
+  background-color: var(--surface-color);
+  color: var(--text-primary);
+}
+
+/* ── Sort buttons ────────────────────────── */
+.sort-buttons {
+  display: flex;
+  gap: 0.4rem;
+  flex-wrap: wrap;
+}
+
+.sort-btn {
+  padding: 0.62rem 1rem;
+  border-radius: 50px;
+  border: 1.5px solid var(--border-color);
+  background-color: var(--bg-color);
+  color: var(--text-secondary);
+  font-family: inherit;
+  font-size: 0.82rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  white-space: nowrap;
+}
+
+.sort-btn:hover {
+  border-color: var(--accent-color);
+  color: var(--accent-color);
+  background-color: var(--accent-light);
+}
+
+.sort-btn.active {
+  background-color: var(--accent-color);
+  border-color: var(--accent-color);
+  color: #fff;
+  font-weight: 600;
+}
