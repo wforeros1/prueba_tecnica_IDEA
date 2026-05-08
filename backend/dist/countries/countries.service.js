@@ -13,24 +13,50 @@ exports.CountriesService = void 0;
 const common_1 = require("@nestjs/common");
 const axios_1 = require("@nestjs/axios");
 const rxjs_1 = require("rxjs");
+const operators_1 = require("rxjs/operators");
 let CountriesService = class CountriesService {
     httpService;
     constructor(httpService) {
         this.httpService = httpService;
     }
-    async getAllCountries() {
+    async getAllCountries(region, sort) {
         try {
-            const { data } = await (0, rxjs_1.firstValueFrom)(this.httpService.get('https://restcountries.com/v3.1/all'));
-            return data.map((country) => ({
+            const response = await (0, rxjs_1.firstValueFrom)(this.httpService.get('https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags').pipe((0, operators_1.timeout)(10000)));
+            const data = response.data;
+            if (!Array.isArray(data)) {
+                throw new Error('Invalid response format from REST Countries API');
+            }
+            let countries = data.map((country) => ({
                 name: country.name?.common || 'Unknown',
                 capital: country.capital?.[0] || 'Unknown',
                 region: country.region || 'Unknown',
                 population: country.population || 0,
                 flag: country.flags?.svg || country.flags?.png || ''
             }));
+            if (region) {
+                countries = countries.filter(c => c.region.toLowerCase() === region.toLowerCase());
+            }
+            if (sort) {
+                switch (sort) {
+                    case 'name_asc':
+                        countries.sort((a, b) => a.name.localeCompare(b.name));
+                        break;
+                    case 'name_desc':
+                        countries.sort((a, b) => b.name.localeCompare(a.name));
+                        break;
+                    case 'pop_asc':
+                        countries.sort((a, b) => a.population - b.population);
+                        break;
+                    case 'pop_desc':
+                        countries.sort((a, b) => b.population - a.population);
+                        break;
+                }
+            }
+            return countries;
         }
         catch (error) {
-            throw new common_1.HttpException('Error fetching countries', common_1.HttpStatus.INTERNAL_SERVER_ERROR);
+            console.error('Error fetching countries:', error);
+            throw new common_1.HttpException('Error fetching countries: ' + (error instanceof Error ? error.message : 'Unknown error'), common_1.HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 };

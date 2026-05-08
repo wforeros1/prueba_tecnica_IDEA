@@ -3,5 +3,5 @@ import { Country } from './interfaces/country.interface';
 export declare class CountriesController {
     private readonly countriesService;
     constructor(countriesService: CountriesService);
-    getCountries(): Promise<Country[]>;
+    getCountries(region?: string, sort?: string): Promise<Country[]>;
 }

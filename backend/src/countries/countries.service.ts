@@ -1,6 +1,7 @@
 import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
 import { HttpService } from '@nestjs/axios';
 import { firstValueFrom } from 'rxjs';
+import { timeout } from 'rxjs/operators';
 import { Country } from './interfaces/country.interface';
 
 @Injectable()
@@ -9,9 +10,17 @@ export class CountriesService {
 
   async getAllCountries(region?: string, sort?: string): Promise<Country[]> {
     try {
-      const { data } = await firstValueFrom(
-        this.httpService.get('https://restcountries.com/v3.1/all')
+      const response = await firstValueFrom(
+        this.httpService.get('https://restcountries.com/v3.1/all?fields=name,capital,region,population,flags').pipe(
+          timeout(10000)
+        )
       );
+      
+      const data = response.data;
+      
+      if (!Array.isArray(data)) {
+        throw new Error('Invalid response format from REST Countries API');
+      }
       
       let countries: Country[] = data.map((country: any) => ({
         name: country.name?.common || 'Unknown',
@@ -46,7 +55,11 @@ export class CountriesService {
 
       return countries;
     } catch (error) {
-      throw new HttpException('Error fetching countries', HttpStatus.INTERNAL_SERVER_ERROR);
+      console.error('Error fetching countries:', error);
+      throw new HttpException(
+        'Error fetching countries: ' + (error instanceof Error ? error.message : 'Unknown error'),
+        HttpStatus.INTERNAL_SERVER_ERROR
+      );
     }
   }
 }
