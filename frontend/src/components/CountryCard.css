@@ -1,0 +1,106 @@
+.country-card {
+  background-color: var(--surface-color);
+  border-radius: var(--border-radius);
+  overflow: hidden;
+  transition: all var(--transition-speed) cubic-bezier(0.4, 0, 0.2, 1);
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.country-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(255, 255, 255, 0.2);
+  background-color: var(--surface-hover);
+}
+
+.card-image-wrapper {
+  position: relative;
+  width: 100%;
+  padding-top: 56.25%; /* 16:9 Aspect Ratio */
+  overflow: hidden;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
+.country-flag {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.country-card:hover .country-flag {
+  transform: scale(1.08);
+}
+
+.image-overlay {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 60%;
+  background: linear-gradient(to top, var(--surface-color), transparent);
+  opacity: 0.9;
+  transition: opacity var(--transition-speed);
+}
+
+.country-card:hover .image-overlay {
+  opacity: 1;
+  background: linear-gradient(to top, var(--surface-hover), transparent);
+}
+
+.card-content {
+  padding: 1.5rem;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 1;
+  margin-top: -3rem; /* Overlap image slightly */
+}
+
+.country-name {
+  font-size: 1.4rem;
+  font-weight: 700;
+  margin-bottom: 1.25rem;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.country-details {
+  display: flex;
+  flex-direction: column;
+  gap: 0.85rem;
+  margin-top: auto;
+  background-color: rgba(255, 255, 255, 0.03);
+  padding: 1rem;
+  border-radius: 12px;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+  font-weight: 500;
+  transition: color var(--transition-speed);
+}
+
+.country-card:hover .detail-item {
+  color: #e2e8f0;
+}
+
+.detail-icon {
+  color: var(--accent-color);
+  flex-shrink: 0;
+}
